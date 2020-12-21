@@ -1,0 +1,12 @@
+netifaces
+zeroconf
+biplist
+pycryptodome
+hexdump
+srptools
+hkdf
+pynacl
+cryptography
+requests
+av
+numpy
