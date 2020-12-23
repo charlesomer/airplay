@@ -54,7 +54,7 @@ FEATURES = 0x8030040780a00
 # FEATURES = 0x30040780a00
 # FEATURES = 0x8030040780a00 | (1 << 27)
 
-FEATURES = 0x88100405D0A00
+FEATURES = 0x1C340405FCA00
 
 DEVICE_ID = None
 IPV4 = None
@@ -165,6 +165,7 @@ class AP2Handler(http.server.BaseHTTPRequestHandler):
     pp = pprint.PrettyPrinter()
 
     def parse_request(self):
+        print("\n--- REQUEST ---")
         self.raw_requestline = self.raw_requestline.replace(b"RTSP/1.0", b"HTTP/1.1")
 
         r = http.server.BaseHTTPRequestHandler.parse_request(self)
@@ -173,6 +174,8 @@ class AP2Handler(http.server.BaseHTTPRequestHandler):
         return r
 
     def send_response(self, code, message=None):
+        print("--- RESPONSE ---")
+        print("Code: " + str(code))
         if message is None:
             if code in self.responses:
                 message = self.responses[code][0]
