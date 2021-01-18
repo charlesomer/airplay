@@ -54,7 +54,7 @@ FEATURES = 0x8030040780a00
 # FEATURES = 0x30040780a00
 # FEATURES = 0x8030040780a00 | (1 << 27)
 
-FEATURES = 0x1C340405FCA00
+FEATURES = 0x1c340405fca00
 
 DEVICE_ID = None
 IPV4 = None
@@ -618,7 +618,7 @@ class AP2Handler(http.server.BaseHTTPRequestHandler):
                 print("Content-Type: %s | Not implemented" % self.headers["Content-Type"])
                 self.send_error(404)
         else:
-            res = writePlistToString(second_stage_info)
+            res = writePlistToString(sonos_one_info)
             self.send_response(200)
             self.send_header("Content-Length", len(res))
             self.send_header("Content-Type", HTTP_CT_BPLIST)
