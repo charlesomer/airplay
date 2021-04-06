@@ -27,24 +27,45 @@ Next steps:
  - FairPlay v2 Support
 ---
 
+## Pre-Built Docker Image
+This image is built directly from `master` so may break.
+```
+docker run -it --rm --device /dev/snd --net host charlesomer/airplay
+```
+Default network device is wlan0, you can change this with AP2IFACE env variable:
+```
+docker run -it --rm --device /dev/snd --env AP2IFACE=eth0 --net host charlesomer/airplay
+```
+Example Docker Compose
+```
+version: "3.8"
+services:
+  airplay:
+    image: charlesomer/airplay:latest
+    restart: always
+    network_mode: host
+    devices: 
+      - "/dev/snd"
+```
+
 ## Raspberry Pi 4
 
 Install docker and then build the image:
 
 ```zsh
-docker build -f docker/Dockerfile -t invano/ap2-receiver .
+docker build -f docker/Dockerfile -t USERNAME/airplay .
 ```
 
 To run the receiver:
 
 ```zsh
-docker run -it --rm --device /dev/snd --net host invano/ap2-receiver
+docker run -it --rm --device /dev/snd --net host USERNAME/airplay
 ```
 
 Default network device is wlan0, you can change this with AP2IFACE env variable:
 
 ```zsh
-docker run -it --rm --device /dev/snd --env AP2IFACE=eth0 --net host invano/ap2-receiver
+docker run -it --rm --device /dev/snd --env AP2IFACE=eth0 --net host USERNAME/airplay
 ```
 
 ## macOS Catalina
