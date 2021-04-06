@@ -165,7 +165,6 @@ class AP2Handler(http.server.BaseHTTPRequestHandler):
     pp = pprint.PrettyPrinter()
 
     def parse_request(self):
-        print("\n--- REQUEST ---")
         self.raw_requestline = self.raw_requestline.replace(b"RTSP/1.0", b"HTTP/1.1")
 
         r = http.server.BaseHTTPRequestHandler.parse_request(self)
@@ -174,8 +173,6 @@ class AP2Handler(http.server.BaseHTTPRequestHandler):
         return r
 
     def send_response(self, code, message=None):
-        print("--- RESPONSE ---")
-        print("Code: " + str(code))
         if message is None:
             if code in self.responses:
                 message = self.responses[code][0]
@@ -336,7 +333,7 @@ class AP2Handler(http.server.BaseHTTPRequestHandler):
                 else:
                     print("Ops GET_PARAMETER: %s" % p)
         if DISABLE_VM:
-            res = b"volume: 0"
+            res = b"volume: 0" + b"\r\n"
         else:
             res = b"\r\n".join(b"%s: %s" % (k, v) for k, v in params_res.items()) + b"\r\n"
         self.send_response(200)
@@ -345,6 +342,7 @@ class AP2Handler(http.server.BaseHTTPRequestHandler):
         self.send_header("Server", self.version_string())
         self.send_header("CSeq", self.headers["CSeq"])
         self.end_headers()
+        hexdump(res);
         self.wfile.write(res)
 
     def do_SET_PARAMETER(self):
@@ -443,6 +441,12 @@ class AP2Handler(http.server.BaseHTTPRequestHandler):
         self.send_header("Server", self.version_string())
         self.send_header("CSeq", self.headers["CSeq"])
         self.end_headers()
+        
+        # Erase the hap() instance, otherwise reconnects fail
+        self.server.hap = None
+
+        # terminate the forked event_proc, otherwise a zombie process consumes 100% cpu
+        self.event_proc.terminate()
 
     def do_SETPEERS(self):
         print("SETPEERS %s" % self.path)
@@ -705,7 +709,7 @@ if __name__ == "__main__":
     multiprocessing.set_start_method("spawn")
     parser = argparse.ArgumentParser(prog='AirPlay 2 receiver')
     parser.add_argument("-m", "--mdns", required=True, help="mDNS name to announce")
-    parser.add_argument("-n", "--netiface", required=True, help="Network interface to use (e.g. en0).")
+    parser.add_argument("-n", "--netiface", required=True, help="Network interface to bind to")
     parser.add_argument("-nv", "--no-volume-management", required=False, help="Disable volume management", action='store_true')
     parser.add_argument("-f", "--features", required=False, help="Features")
 
