@@ -29,6 +29,8 @@ Next steps:
 
 ## Pre-Built Docker Image
 This image is built directly from `master` so may break.
+
+https://hub.docker.com/r/charlesomer/airplay
 ```
 docker run -it --rm --device /dev/snd --net host charlesomer/airplay
 ```
