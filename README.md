@@ -46,7 +46,9 @@ services:
     image: charlesomer/airplay:latest
     restart: always
     network_mode: host
-    devices: 
+    environment:
+      - AP2HOSTNAME=Airplay2Device
+    devices:
       - "/dev/snd"
 ```
 
