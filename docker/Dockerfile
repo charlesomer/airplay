@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:stable-slim
 
 RUN apt-get update -yy && \
     apt-get install -yy \
