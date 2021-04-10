@@ -21,6 +21,10 @@ RUN apt-get update -yy && \
 	libswscale-dev \
 	libswresample-dev
 
+# Build portaudio for OS that can pass /dev/snd.
+RUN git clone https://github.com/PortAudio/portaudio.git
+RUN cd portaudio && ./configure && make
+
 COPY ap2-receiver.py /airplay2/ap2-receiver.py
 COPY ap2 /airplay2/ap2
 COPY requirements.txt /airplay2/requirements.txt
