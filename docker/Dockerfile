@@ -20,7 +20,8 @@ RUN apt-get update -yy && \
 	libavfilter-dev \
 	libswscale-dev \
 	libswresample-dev \
-    libasound-dev
+    libasound-dev \
+    git
 
 # Build portaudio for OS that can pass /dev/snd.
 RUN git clone https://github.com/PortAudio/portaudio.git
