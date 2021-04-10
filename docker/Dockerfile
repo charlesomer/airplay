@@ -1,4 +1,4 @@
-FROM debian:stable-slim
+FROM python:latest
 
 RUN apt-get update -yy && \
     apt-get install -yy \
