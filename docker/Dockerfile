@@ -1,4 +1,4 @@
-FROM python:latest
+FROM debian:stable-slim
 
 RUN apt-get update -yy && \
     apt-get install -yy \
@@ -25,7 +25,7 @@ COPY ap2-receiver.py /airplay2/ap2-receiver.py
 COPY ap2 /airplay2/ap2
 COPY requirements.txt /airplay2/requirements.txt
 
-RUN pip install -r /airplay2/requirements.txt
+RUN pip3 install -r /airplay2/requirements.txt
 
 COPY docker/avahi-daemon.conf /etc/avahi/avahi-daemon.conf
 COPY docker/start.sh /
