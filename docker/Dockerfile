@@ -13,13 +13,13 @@ RUN apt-get update -yy && \
         python3-pyaudio \
         libffi-dev \
         alsa-utils \
-	libavformat-dev \
-	libavcodec-dev \
-	libavdevice-dev \
-	libavutil-dev \
-	libavfilter-dev \
-	libswscale-dev \
-	libswresample-dev
+        libavformat-dev \
+        libavcodec-dev \
+        libavdevice-dev \
+        libavutil-dev \
+        libavfilter-dev \
+        libswscale-dev \
+        libswresample-dev
 
 WORKDIR /airplay2
 
