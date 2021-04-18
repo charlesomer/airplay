@@ -31,13 +31,7 @@ Next steps:
 This image is built directly from `master` so may break.
 
 https://hub.docker.com/r/charlesomer/airplay
-```
-docker run -it --rm --device /dev/snd --net host charlesomer/airplay
-```
-Default network device is wlan0, you can change this with AP2IFACE env variable:
-```zsh
-docker run -it --rm --device /dev/snd --env AP2IFACE=eth0 --net host charlesomer/airplay
-```
+
 Example Docker Compose
 ```zsh
 version: "3.8"
@@ -46,8 +40,11 @@ services:
     image: charlesomer/airplay:latest
     restart: always
     network_mode: host
-    environment:
-      - AP2HOSTNAME=Airplay2Device
+    environment: # All variables are optional.
+      # - AP2HOSTNAME=Airplay2Device
+      # - AP2IFACE=eth0
+      # - AUDIO_DEVICE=default
+      # - USE_PORTAUDIO=true
     devices:
       - "/dev/snd"
 ```
