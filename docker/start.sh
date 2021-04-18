@@ -6,6 +6,9 @@ fi
 if [ -z "${AP2IFACE}" ]; then
     export AP2IFACE='wlan0'
 fi
+if [ -z "${AUDIO_DEVICE}" ]; then
+    export AUDIO_DEVICE='default'
+fi
 
 # Swap hostname in the avahi config
 sed "s/\(host-name=\).*/\1${AP2HOSTNAME}/g" -i /etc/avahi/avahi-daemon.conf
@@ -16,4 +19,4 @@ sed "s/\(host-name=\).*/\1${AP2HOSTNAME}/g" -i /etc/avahi/avahi-daemon.conf
 
 # Start AirPlay 2 service
 cd /airplay2
-exec python3 ap2-receiver.py -m ${AP2HOSTNAME} -n ${AP2IFACE} --no-volume-management 
+exec python3 ap2-receiver.py -m ${AP2HOSTNAME} -n ${AP2IFACE} --audio-device ${AUDIO_DEVICE} --no-volume-management ${USE_PORTAUDIO} 

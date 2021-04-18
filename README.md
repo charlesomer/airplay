@@ -35,11 +35,11 @@ https://hub.docker.com/r/charlesomer/airplay
 docker run -it --rm --device /dev/snd --net host charlesomer/airplay
 ```
 Default network device is wlan0, you can change this with AP2IFACE env variable:
-```
+```zsh
 docker run -it --rm --device /dev/snd --env AP2IFACE=eth0 --net host charlesomer/airplay
 ```
 Example Docker Compose
-```
+```zsh
 version: "3.8"
 services:
   airplay:
@@ -72,22 +72,23 @@ Default network device is wlan0, you can change this with AP2IFACE env variable:
 docker run -it --rm --device /dev/snd --env AP2IFACE=eth0 --net host USERNAME/airplay
 ```
 
-## macOS Catalina
+## macOS
 
-To run the receiver please use Python 3 and do the following:
-
-* Run the following commands
+Currently `portaudio` is required for MacOS. It can be installed via homebrew:
+```zsh
+brew install portaudio
+```
+Then, you may be able to use the docker image although this is untested. Add the `--use-portaudio` option. Alternatively, clone the repo and run via python virtualenv.
 
 ```zsh
-brew install python3
-brew install portaudio
-virtualenv -p /usr/local/bin/python3 proto
-source proto/bin/activate
-pip install -r requirements.txt
-pip install --global-option=build_ext --global-option="-I/usr/local/Cellar/portaudio/19.6.0/include" --global-option="-L/usr/local/Cellar/portaudio/19.6.0/lib" pyaudio
-
+pip3 install virtualenv
+virtualenv -p /usr/local/bin/python3 airplay-env
+source airplay-env/bin/activate
+pip3 install -r requirements-all.txt
+pip3 install --global-option=build_ext --global-option="-I/usr/local/Cellar/portaudio/19.6.0/include" --global-option="-L/usr/local/Cellar/portaudio/19.6.0/lib" pyaudio
 
 python ap2-receiver.py -m myap2 --netiface=en0
+# Allow incoming connections.
 ```
 
 ## Windows
@@ -101,7 +102,7 @@ cd [WHERE_YOU_CLONED_AIRPLAY2_RECEIVER]
 virtualenv airplay2-receiver
 cd airplay2-receiver
 .\Scripts\activate
-pip install -r requirements.txt
+pip install -r requirements-all.txt
 pip install pipwin
 pipwin install pyaudio
 

@@ -67,6 +67,9 @@ HTTP_CT_PARAM = "text/parameters"
 HTTP_CT_IMAGE = "image/jpeg"
 HTTP_CT_DMAP = "application/x-dmap-tagged"
 
+AUDIO_DEVICE = "default"
+USE_PORTAUDIO = False
+
 def setup_global_structs(args):
     global sonos_one_info
     global sonos_one_setup
@@ -291,7 +294,7 @@ class AP2Handler(http.server.BaseHTTPRequestHandler):
                 else:
                     print("Sending CONTROL/DATA:")
 
-                    stream = Stream(plist["streams"][0])
+                    stream = Stream(plist["streams"][0], AUDIO_DEVICE, USE_PORTAUDIO)
                     self.server.streams.append(stream)
                     sonos_one_setup_data["streams"][0]["controlPort"] = stream.control_port
                     sonos_one_setup_data["streams"][0]["dataPort"] = stream.data_port
@@ -342,7 +345,7 @@ class AP2Handler(http.server.BaseHTTPRequestHandler):
         self.send_header("Server", self.version_string())
         self.send_header("CSeq", self.headers["CSeq"])
         self.end_headers()
-        hexdump(res);
+        hexdump(res)
         self.wfile.write(res)
 
     def do_SET_PARAMETER(self):
@@ -711,6 +714,8 @@ if __name__ == "__main__":
     parser.add_argument("-m", "--mdns", required=True, help="mDNS name to announce")
     parser.add_argument("-n", "--netiface", required=True, help="Network interface to bind to")
     parser.add_argument("-nv", "--no-volume-management", required=False, help="Disable volume management", action='store_true')
+    parser.add_argument("-d", "--audio-device", required=False, help="Specify output device (string).", default='default') 
+    parser.add_argument("-po", "--use-portaudio", required=False, help="Use port audio (useful for Windows and MacOS).", default=False)
     parser.add_argument("-f", "--features", required=False, help="Features")
 
     args = parser.parse_args()
@@ -719,6 +724,9 @@ if __name__ == "__main__":
         IFEN = args.netiface
         ifen = ni.ifaddresses(IFEN)
         DISABLE_VM = args.no_volume_management
+
+        AUDIO_DEVICE = args.audio_device
+        USE_PORTAUDIO = args.use_portaudio
         if args.features:
             try:
                 FEATURES = int(args.features, 16)
