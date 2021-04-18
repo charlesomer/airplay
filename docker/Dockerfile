@@ -26,9 +26,10 @@ WORKDIR /airplay2
 COPY ./ap2-receiver.py ./ap2-receiver.py
 COPY ./ap2 ./ap2
 
-COPY ./requirements-linux.txt ./requirements-linux.txt
-COPY ./requirements-all.txt ./requirements-all.txt
-RUN pip3 install -r ./requirements-linux.txt
+COPY ./requirements.txt ./requirements.txt
+COPY ./requirements.extra.linux.txt ./requirements.extra.linux.txt
+RUN pip3 install -r ./requirements.txt
+RUN pip3 install -r ./requirements.extra.linux.txt
 
 COPY ./docker/avahi-daemon.conf /etc/avahi/avahi-daemon.conf
 COPY ./docker/start.sh /

@@ -84,7 +84,7 @@ Then, you may be able to use the docker image although this is untested. Add the
 pip3 install virtualenv
 virtualenv -p /usr/local/bin/python3 airplay-env
 source airplay-env/bin/activate
-pip3 install -r requirements-all.txt
+pip3 install -r requirements.txt
 pip3 install --global-option=build_ext --global-option="-I/usr/local/Cellar/portaudio/19.6.0/include" --global-option="-L/usr/local/Cellar/portaudio/19.6.0/lib" pyaudio
 
 python ap2-receiver.py -m myap2 --netiface=en0
@@ -102,7 +102,7 @@ cd [WHERE_YOU_CLONED_AIRPLAY2_RECEIVER]
 virtualenv airplay2-receiver
 cd airplay2-receiver
 .\Scripts\activate
-pip install -r requirements-all.txt
+pip install -r requirements.txt
 pip install pipwin
 pipwin install pyaudio
 
