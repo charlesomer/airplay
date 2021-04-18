@@ -21,15 +21,17 @@ RUN apt-get update -yy && \
 	libswscale-dev \
 	libswresample-dev
 
-COPY ap2-receiver.py /airplay2/ap2-receiver.py
-COPY ap2 /airplay2/ap2
+WORKDIR /airplay2
 
-COPY requirements-linux.txt /airplay2/requirements-linux.txt
-COPY requirements-all.txt /airplay2/requirements-all.txt
-RUN pip3 install -r /airplay2/requirements-linux.txt
+COPY ./ap2-receiver.py ./ap2-receiver.py
+COPY ./ap2 ./ap2
 
-COPY docker/avahi-daemon.conf /etc/avahi/avahi-daemon.conf
-COPY docker/start.sh /
+COPY ./requirements-linux.txt ./requirements-linux.txt
+COPY ./requirements-all.txt ./requirements-all.txt
+RUN pip3 install -r ./requirements-linux.txt
+
+COPY ./docker/avahi-daemon.conf /etc/avahi/avahi-daemon.conf
+COPY ./docker/start.sh /
 
 RUN chmod +x /start.sh
 
