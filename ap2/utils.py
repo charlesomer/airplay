@@ -46,16 +46,25 @@ def interpolate(value, from_min, from_max, to_min, to_max):
 
     return to_min + (value_scale * to_span)
 
-def get_volume(audio_device='default'):
+def get_mixer(audio_device):
+    # Unfortunately getting the controller is not easy. Here we run the amixer command and extract from the result.
+    controller_string = subprocess.run(["amixer", "-D", audio_device, "scontrols"], capture_output=True, text=True).stdout
+    controller_extracted = re.findall("([^']*)", controller_string)[2]
+    print("Using controller: ", controller_extracted)
+    mixer = alsaaudio.Mixer(device=audio_device, control=controller_extracted)
+
+    return mixer
+
+def get_volume(audio_device):
     subsys = platform.system()
     if subsys == "Darwin":
         pct = int(subprocess.check_output(["osascript", "-e", "output volume of (get volume settings)"]).rstrip())
         vol = interpolate(pct, 0, 100, -30, 0)
     elif subsys == "Linux":
-        mixer = alsaaudio.Mixer(device=audio_device)
+        mixer = get_mixer(audio_device)
         current_volume_percentage = mixer.getvolume()[0]
 
-        # Assume this is something to do with Airplay minimum audio limit.
+        # Not sure why this limit is here.
         if current_volume_percentage < 45:
             current_volume_percentage = 45
 
@@ -68,7 +77,7 @@ def get_volume(audio_device='default'):
     return vol
 
 
-def set_volume(vol, audio_device='default'):
+def set_volume(vol, audio_device):
     if vol == -144:
         vol = -30
 
@@ -79,5 +88,6 @@ def set_volume(vol, audio_device='default'):
     elif subsys == "Linux":
         volume_percentage = int(interpolate(vol, -30, 0, 45, 100))
 
-        mixer = alsaaudio.Mixer(device=audio_device)
-        mixer.setvolume("%d%%" % volume_percentage)
+        mixer = get_mixer(audio_device)
+        mixer.setvolume(volume_percentage)
+        print(mixer.getvolume())
