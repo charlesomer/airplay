@@ -19,7 +19,8 @@ RUN apt-get update -yy && \
         libavutil-dev \
         libavfilter-dev \
         libswscale-dev \
-        libswresample-dev
+        libswresample-dev \
+        libasound2-dev
 
 WORKDIR /airplay2
 
