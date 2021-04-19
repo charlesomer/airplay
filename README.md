@@ -43,7 +43,7 @@ services:
     environment: # All variables are optional.
       # - AP2HOSTNAME=Airplay2Device
       # - AP2IFACE=eth0
-      # - AUDIO_DEVICE=default
+      # - AUDIO_DEVICE=default # For use with alsaaudio.
       # - USE_PORTAUDIO=true # If this is set to true, volume management is also disabled
       # - NO_VOLUME_MANAGEMENT=true
     devices:

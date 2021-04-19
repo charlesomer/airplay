@@ -119,7 +119,7 @@ def setup_global_structs(args):
     if DISABLE_VM:
         volume = 0
     else: 
-        volume = get_volume()
+        volume = get_volume(AUDIO_DEVICE)
     second_stage_info = {
         "initialVolume": volume,
         }
@@ -330,7 +330,7 @@ class AP2Handler(http.server.BaseHTTPRequestHandler):
                 if p == b"volume":
                     print("GET_PARAMETER: %s" % p)
                     if not DISABLE_VM:
-                        params_res[p] = str(get_volume()).encode()
+                        params_res[p] = str(get_volume(AUDIO_DEVICE)).encode()
                     else:
                         print("Volume Management is disabled")
                 else:
@@ -364,7 +364,7 @@ class AP2Handler(http.server.BaseHTTPRequestHandler):
                     if pp[0] == b"volume":
                         print("SET_PARAMETER: %s => %s" % (pp[0], pp[1]))
                         if not DISABLE_VM:
-                            set_volume(float(pp[1]))
+                            set_volume(float(pp[1]), AUDIO_DEVICE)
                         else:
                             print("Volume Management is disabled")
                     elif pp[0] == b"progress":
