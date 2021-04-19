@@ -28,4 +28,4 @@ sed "s/\(host-name=\).*/\1${AP2HOSTNAME}/g" -i /etc/avahi/avahi-daemon.conf
 
 # Start AirPlay 2 service
 cd /airplay2
-exec python3 ap2-receiver.py -m ${AP2HOSTNAME} -n ${AP2IFACE} --audio-device ${AUDIO_DEVICE} ${NO_VOLUME_MANAGEMENT_FLAG} ${USE_PORTAUDIO_FLAG} 
+exec python3 ap2-receiver.py -m ${AP2HOSTNAME} -n ${AP2IFACE} --audio-device ${AUDIO_DEVICE} ${NO_VOLUME_MANAGEMENT_FLAG} ${USE_PORTAUDIO_FLAG}
