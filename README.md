@@ -77,7 +77,9 @@ pip3 install virtualenv
 virtualenv -p /usr/local/bin/python3 airplay-env
 source airplay-env/bin/activate
 pip3 install -r requirements.txt
-pip3 install --global-option=build_ext --global-option="-I/usr/local/Cellar/portaudio/19.6.0/include" --global-option="-L/usr/local/Cellar/portaudio/19.6.0/lib" pyaudio
+
+# The following line may not be required.
+# pip3 install --global-option=build_ext --global-option="-I/usr/local/Cellar/portaudio/19.6.0/include" --global-option="-L/usr/local/Cellar/portaudio/19.6.0/lib" pyaudio
 
 python ap2-receiver.py -m myap2 --netiface=en0
 # Allow incoming connections.

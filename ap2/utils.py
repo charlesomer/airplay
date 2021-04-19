@@ -56,8 +56,8 @@ def get_volume(audio_device='default'):
         current_volume_percentage = mixer.getvolume()
 
         # Assume this is something to do with Airplay minimum audio limit.
-    if current_volume_percentage < 45:
-        current_volume_percentage = 45
+        if current_volume_percentage < 45:
+            current_volume_percentage = 45
 
         vol = interpolate(current_volume_percentage, 45, 100, -30, 0)
     elif subsys == "Windows":
