@@ -66,6 +66,8 @@ docker run -it --rm --device /dev/snd --net host USERNAME/airplay
 
 ## macOS
 
+_macOS has shown issues when playing audio, if anyone is able to take a look at this to confirm/fix that would be great._
+
 Currently `portaudio` is required for MacOS. It can be installed via homebrew:
 ```zsh
 brew install portaudio
