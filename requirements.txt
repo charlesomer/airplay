@@ -11,4 +11,4 @@ requests
 av
 numpy
 pyaudio
-pyalsaaudio
+pyalsaaudio; sys_platform == 'linux'
